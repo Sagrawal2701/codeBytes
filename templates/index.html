@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <title>codeBytes - Image Editor</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">codeBytes</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">About Us</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <section class="features">
+      <div class="box">
+        <img
+          src="../static/images/OMEN Superhero.jpg"
+          class="img-fluid"
+          alt="Responsive image"
+          width="40%"
+          height="40%"
+        />
+      </div>
+    </section>
+    <section>
+      <form action="" method="post" name="form">
+        <label for="brightness">Brightness</label>
+        <input
+          type="number"
+          name="brightness"
+          id="brightness"
+          min="-255"
+          max="255"
+          value="0"
+        />
+        <label for="">Contrast</label>
+        <input
+          type="number"
+          name="contrast"
+          id="contrast"
+          min="-50"
+          max="50"
+          value="0"
+        />
+        <label for="">Blur</label>
+        <input
+          type="number"
+          name="blur"
+          id="blur"
+          min="-50"
+          max="50"
+          value="0"
+        />
+        <label for="">Sharpness</label>
+        <input
+          type="number"
+          name="sharpness"
+          id="sharpness"
+          min="-50"
+          max="50"
+          value="0"
+        />
+        <input type="submit" value="submit" name="submit" />
+      </form>
+    </section>
+
+    <!-- <img src="https://placeimg.com/200/200/any" /> -->
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+  <script>
+    var slide = document.getElementById("myRange");
+    var sliderDiv = document.getElementById("display");
+
+    slide.onchange = function () {
+      sliderDiv.innerHTML = this.value;
+      $.post({
+        url: "/",
+        data: $("form").serialize(),
+        success: function (response) {
+          console.log(response);
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    };
+    setInterval(function () {
+      var images = document.getElementsByTagName("img");
+      for (var i = 0; i < images.length; i++) {
+        var dt = new Date();
+        console.log(dt); //does not display anything on the console
+        var img = images[i];
+        if (img.id != "MainIMAGE") {
+          // reload all images except image with id MainIMAGE
+          const url = new URL(img.src);
+          url.search = "time=" + dt.getTime();
+          img.src = url.href;
+          console.log(img.src + " " + dt); // does not display anything as well
+        }
+      }
+    }, 3000);
+  </script>
+</html>
