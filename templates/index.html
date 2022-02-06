@@ -44,19 +44,40 @@
         </div>
       </div>
     </nav>
-    <section class="features">
-      <div class="box">
-        <img
-          src="../static/images/OMEN Superhero.jpg"
-          class="img-fluid"
-          alt="Responsive image"
-          width="40%"
-          height="40%"
-        />
-      </div>
-    </section>
-    <section>
-      <form action="" method="post" name="form">
+
+    <div class="image">
+      <img
+        src="{{image_filename}}"
+        alt="uploaded image"
+        class="up_img"
+        id="up_img"
+        width="40%"
+        height="40%"
+      />
+    </div>
+
+    <section style="margin: 10px">
+      <form action="" method="post" name="form" enctype="multipart/form-data">
+        <div style="margin: 10">
+          <input
+            type="file"
+            name="local_file"
+            accept=".jpeg,.jpg,.png"
+            id="local_file"
+          />
+          <input type="submit" name="upload" value="Upload" class="upload" />
+        </div>
+        <br />
+        <div style="margin: 10">
+          <input
+            type="text"
+            name="path"
+            placeholder="Image URL"
+            pattern="^.*\.(jpg|JPG|jpeg|JPEG|png|PNG)$"
+          />
+          <input type="submit" name="upload" value="Upload" class="upload" />
+        </div>
+        <br />
         <label for="brightness">Brightness</label>
         <input
           type="number"
@@ -93,7 +114,7 @@
           max="50"
           value="0"
         />
-        <input type="submit" value="submit" name="submit" />
+        <input type="submit" name="upload" value="submit" />
       </form>
     </section>
 
