@@ -1,40 +1,30 @@
-
-import numpy as np
 import cv2
+import numpy as np
+import getpass
+import platform
 import os
-
-# directory1 = r'C:\Users\rites\OneDrive\Desktop\Image-Editor\static\images\trash'
-# directory=r'C:\Users\rites\OneDrive\Desktop\Image-Editor'
-
+import calendar
+import time
 
 def apply(path,edit_img,name="edited"):
    if path.count("jpg")>0 or path.count("jpeg")>0:
-      #os.chdir(directory1)
       cv2.imwrite(name+'.jpg',edit_img)
    elif path.count("png")>0:
-     # os.chdir(directory1)
       cv2.imwrite(name+'.png',edit_img)
-   #os.chdir(directory)
+
 
 def brightness(path,value):
     image=cv2.imread(path)
     zero=np.zeros(image.shape,image.dtype)
     bright_img = cv2.addWeighted(image,1,zero,0,value)
-    # cv2.imshow("test",bright_img)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
     apply(path,bright_img)
-   
+
 def contrast(path,value):
-    image=cv2.imread(path)
+    image=cv2.imread(path)                              # range 0-1 derease contrast ,1-2 increase 
     zero=np.zeros(image.shape,image.dtype)
     con = cv2.addWeighted(image,value,zero,0,0)
-    # cv2.imshow("test",con)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows() 
     apply(path,con)
-
-
+    
 def sharp(path,value):
     image=cv2.imread(path)
     kernel = np.array([[0,-1,0], 
@@ -52,5 +42,56 @@ def sharp(path,value):
 
 def blur(path,value):
     image = cv2.imread(path) 
-    blur = cv2.blur(image,(value,value)) 
+    blur = cv2.blur(image,(value,value))                       
     apply(path,blur)
+
+def rotate(path,value):
+    image = cv2.imread(path)
+    if value=="90":
+        rotated = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+    elif value=="180":
+        rotated = cv2.rotate(image, cv2.ROTATE_180)
+    elif value=="270":
+        rotated = cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
+    apply(path,rotated)
+
+def resize(path,value):
+    image = cv2.imread(path)
+    if value=="25":
+        resize=cv2.resize(image,(0,0),fx=0.25,fy=0.25)                    #0.25,0.5,0.75 ,1
+    elif value=="50":
+        resize=cv2.resize(image,(0,0),fx=0.5,fy=0.5)
+    elif value=="75":
+        resize=cv2.resize(image,(0,0),fx=0.75,fy=0.75)
+    apply(path,resize)
+    
+def denoise(path,value):
+    image = cv2.imread(path)
+    if value=="min":
+       denoised=cv2.fastNlMeansDenoisingColored(image,None,4,4,7,21)
+    elif value=="mid":
+       denoised=cv2.fastNlMeansDenoisingColored(image,None,7,7,7,21)
+    elif value=="max":
+       denoised=cv2.fastNlMeansDenoisingColored(image,None,10,10,7,21)
+    apply(path,denoised)
+    
+def downloads(path):
+    username = getpass.getuser()
+    folder = ''
+    gmt = time.gmtime()
+    ts = calendar.timegm(gmt)
+    ts=str(ts)
+    if platform.system()=='windows':
+        folder += '/home/'+username+'/Downloads/'
+    else:
+        folder += 'C:\Downloads'
+    image = cv2.imread(path)
+    previous = os.getcwd()
+    os.chdir(folder)
+    if path.count('jpg')>0 or path.count('jpeg')>0 :
+       outpath = "Edited_"+ts+".jpg"
+       cv2.imwrite(outpath,image)                 
+    elif path.count('png')>0:
+       outpath = "Edited_"+ts+".png"
+       cv2.imwrite(outpath,image)              
+    os.chdir(previous)

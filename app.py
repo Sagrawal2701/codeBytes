@@ -1,105 +1,265 @@
-from cgitb import html
-from email.mime import image
-import imp
-from click import edit
+from flask import Flask, render_template ,request,flash,Response, send_file
+from werkzeug.utils import secure_filename
 import cv2
 import os
+import calendar
+import time
+import getpass
+import platform
+from effects import color_pop, cool, alchemy,wacko,unstable,ore,contour,snicko,indus,spectra,molecule,lynn
+from edit import brightness,contrast,blur,resize,denoise,rotate,sharp
+from filter import hind,flora,handlebar,bella,tilak,thug,lido,polychrome,visor,rcb,mi,nags
 
-from numpy import imag
-
-from edit import blur, brightness, contrast, sharp
-from flask import Flask, redirect,flash, render_template, url_for, request, Response
-from wtforms import Form
-from werkzeug.utils import secure_filename
-
-
-UPLOAD_FOLDER = 'static/uploads/'
-
-app = Flask(__name__, static_url_path='/static')
-app.config.from_object(__name__)
-app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
+app = Flask(__name__)
+app.config['SECRET_KEY']='codeBytes'
 
 
+
+@app.after_request
+def add_header(response):
+    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+    response.headers['Cache-Control'] = 'public, max-age=0'
+    return response
+
+###################################################################################################home page
 @app.route('/')
 def home():
-    return render_template('index.html')
+	return render_template('edit.html')
 
 
-edit_img = ''
+#################################################################################about page
+
+@app.route('/about')
+def about():
+	return render_template('about.html')
+
+
+
+############################################################################################edit page
+edit_img=''
 edited=''
-brightness_data='0'
-contrast_data='1'
-blur_data='0'
+brightness_value='0'
+contrast_value='1'
+sharp_value=''
+resize_value=''
+rotate_value=''
+denoise_value=''
+blur_value='1'
+effected=''
+filter_val='None'
+compress_value='min'
 
-@app.route('/', methods=["GET", "POST"])
-def index():
-    if request.method == "POST":
-        global brightness_data
-        global contrast_data
-        global blur_data
-        global sharpness_data
-        global edit_img
-        global edited
-        if request.form['upload'] == 'Upload' and request.form['path'] != '' and request.files['local_file'].filename == '':
-            path = request.form['path']
-            a = path.split('/')
-            previous = os.getcwd()
-            edit_img = previous+'/static/images/trash/'+a[len(a)-1]
-            if os.path.isfile(previous+'/static/images/trash/'+a[len(a)-1]):
-                return render_template('edit.html', image_filename='../static/images/trash/'+a[len(a)-1],brightness_data=brightness_data,contrast_data=contrast_data,blur_data=blur_data)
-            folder = previous + '/static/images/trash/'
-            os.chdir(folder)
-            image_filename = wget.download(path)
-            os.chdir(previous)
-            return render_template('index.html', image_filename='../static/images/trash/'+image_filename,brightness_data=brightness_data,contrast_data=contrast_data,blur_data=blur_data)
-        elif request.form['upload'] == 'Upload' and request.form['path'] == '' and request.files['local_file'].filename != '':
+@app.route('/edit',methods=['GET','POST'])
+def edit():
+    if request.method=='POST':
+       global edit_img
+       global effected
+       global edited
+       global brightness_value
+       global contrast_value
+       global sharp_value
+       global resize_value
+       global rotate_value
+       global denoise_value
+       global blur_value
+       global filter_val
+       global compress_value
+   
+       if request.form['button']=='Upload'  and  request.files['local_file'].filename!='':
             f = request.files['local_file']
             previous = os.getcwd()
-            edit_img = previous+'/static/images/trash/'+f.filename
-            folder = previous + '/static/images/trash/'
+            eff_img=previous+'/static/images/trash/'+f.filename
+            edit_img=previous+'/static/images/trash/'+f.filename
+            com_img=previous+'/static/images/trash/'+f.filename
+            folder = previous +'/static/images/trash/'
             os.chdir(folder)
             f.save(secure_filename(f.filename))
             os.chdir(previous)
-            return render_template('index.html', image_filename='../static/images/trash/'+f.filename,brightness_data=brightness_data,contrast_data=contrast_data,blur_data=blur_data)
-        elif request.form['upload'] == 'submit' and edit_img!='':
-            brightness_data = request.form['brightness']
-            contrast_data = request.form['contrast']
-            blur_data = request.form['blur']
-            sharpness_data = request.form['sharpness']
+            return render_template('edit.html',image_filename='../static/images/trash/'+f.filename,brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
+     
+       elif request.form['button']=='Apply' and edit_img!='':
+            brightness_value = request.form['brightness']
+            contrast_value = request.form['Contrast']
+            sharp_value = request.form['type']
+            resize_value = request.form['type2']
+            rotate_value = request.form['type1']
+            denoise_value = request.form['type3']
+            blur_value = request.form['Blur']
+            filter_val=request.form['filters']
+            compress_value=request.form['type4']
             previous = os.getcwd()
-            folder = previous + '/static/images/trash/'
+            folder = previous +'/static/images/trash/'
             if edit_img.count('jpeg')>0 or edit_img.count("jpg")>0:
-              edited=folder+'edited.jpg'
+                edited=folder+'edited.jpg'
             elif edit_img.count('png')>0:
-                edited=folder+'edited.png'
+                 edited=folder+'edited.png'
             os.chdir(folder)
-
-            if brightness_data:
-              brightness(edit_img,int(brightness_data))
-            if contrast_data:
-                contrast(edited, float(contrast_data))
-            if blur_data:
-                blur(edited,int(blur_data))
-            if sharpness_data:
-                sharp(edited,sharpness_data)
-            os.chdir(previous)
-
+            if brightness_value:
+               brightness(edit_img,int(brightness_value))
+            if contrast_value:
+               contrast(edited,float(contrast_value))
+            if sharp_value!='none':
+               sharp(edited,sharp_value)
+            if resize_value!='none':
+               resize(edited,resize_value)
+            if rotate_value!='none': 
+               rotate(edited,rotate_value)
+            if denoise_value!='none':
+               denoise(edited,denoise_value)
+            if blur_value:
+               blur(edited,int(blur_value))
+            if filter_val!='':
+               if filter_val=='Oreo':
+                   color_pop(edited)
+               elif filter_val=='Alchemy':
+                   alchemy(edited)          
+               elif filter_val=='Contour':
+                   contour(edited)
+               elif filter_val=='Indus':
+                   indus(edited)
+               elif filter_val=='Molecule':
+                   molecule(edited)
+               elif filter_val=='Mercury':
+                   cool(edited)
+               elif filter_val=='Wacko':
+                   wacko(edited)
+               elif filter_val=='Ore':
+                   ore(edited)
+               elif filter_val=='Snicko':
+                   snicko(edited)
+               elif compress_value!='':
+                   compression(edited,compress_value)                                
+            os.chdir(previous)           
+ 
             if edit_img.count('jpeg')>0 or edit_img.count("jpg")>0:
-                return render_template('index.html',image_filename='../static/images/trash/edited.jpg',brightness_data=brightness_data,contrast_data=contrast_data,blur_data=blur_data)
+                return render_template('edit.html',image_filename='../static/images/trash/edited.jpg',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
             elif edit_img.count('png')>0:
-                return render_template('index.html',image_filename='../static/images/trash/edited.jpg',brightness_data=brightness_data,contrast_data=contrast_data,blur_data=blur_data)
+                return render_template('edit.html',image_filename='../static/images/trash/edited.jpg',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
             else:
                flash("Oops Something went wrong !")
-               return render_template('index.html',brightness_data=brightness_data,contrast_data=contrast_data,blur_data=blur_data)
-        else:
+               return render_template('edit.html',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
+    
+       else:
+            effected=''
             edit_img=''
             edited=''
-            brightness_data='0'
-            contrast_data='1' 
-            flash("Oops Something went wrong !")     
-            return render_template('index.html',brightness_data=brightness_data,contrast_data=contrast_data,blur_data=blur_data)
-    return render_template('index.html', image_filename='../static/images/edited.jpg',brightness_data=brightness_data,contrast_data=contrast_data,blur_data=blur_data)
+            brightness_value='0'
+            contrast_value='1'
+            sharp_value=''
+            resize_value=''
+            rotate_value=''
+            denoise_value=''
+            blur_value='1'
+            flash("Oops Something went wrong !")
+            return render_template('edit.html',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
 
+    return render_template('edit.html',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+############################################################################################filters page
+cap =''
+value=0
+filter_img=''
+flag=False
+def stream():
+    global cap
+    cap=cv2.VideoCapture(0)
+    while True:
+        _,frame = cap.read()
+        imgencode=cv2.imencode('.jpg',frame)[1]
+        strinData = imgencode.tostring()
+        yield (b'--frame\r\n'b'Content-Type: text/plain\r\n\r\n'+strinData+b'\r\n')
+
+def stop():
+    global cap
+    if cap.isOpened():
+        cap.release()
+
+   
+
+@app.route('/filters/video')
+def video():
+     if value==0:     
+         return Response(stream(),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==1:
+         print("Entered Hind video")
+         return Response(hind(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==2:
+         return Response(handlebar(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==3:
+         return Response(flora(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==4:
+         return Response(bella(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==5:
+         return Response(tilak(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==6:
+         return Response(thug(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==7:
+         return Response(lido(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==8:
+         return Response(polychrome(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==9:
+         return Response(visor(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==10:
+         return Response(mi(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==11:
+         return Response(rcb(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==12:
+         return Response(nags(cap),mimetype='multipart/x-mixed-replace;boundary=frame')
+     elif value==13:
+         return Response(stop(),mimetype='multipart/x-mixed-replace;boundary=frame')
+
+@app.route('/filters',methods=['GET','POST'])
+def filters():
+     global value
+     global filter_img
+     global flag
+     if request.method=='POST':
+        print("Entered")
+        if request.form['button']=='Hind':
+               print("Entered Hind")
+               value=1       
+        elif request.form['button']=='Handlebar':
+               value=2
+        elif request.form['button']=='Flora':
+               value=3
+        elif request.form['button']=='Bella':
+               value=4
+        elif request.form['button']=='Tilak':
+               value=5
+        elif request.form['button']=='Thug':
+               value=6
+        elif request.form['button']=='Lido':
+               value=7
+        elif request.form['button']=='Polychrome':
+               value=8
+        elif request.form['button']=='Visor':
+               value=9
+        elif request.form['button']=='MI':
+               value=10
+        elif request.form['button']=='RCB':
+               value=11
+        elif request.form['button']=='Nags':
+               value=12
+        elif request.form['button']=='Clear':
+               value=0
+        elif request.form['button']=='Capture':
+               value=13
+               flag=True
+               filter_img='../static/images/trash/filter.jpg'
+               return render_template('filters.html',img_filename='../static/images/trash/filter.jpg')
+        else:
+              value=0
+     return render_template('filters.html',img_filename=None)
+
+@app.route('/download')
+def download_file():
+    path='static/images/trash/edited.jpg'
+    return send_file(path,as_attachment=True)
+@app.route('/download1')
+def download_file1():
+    path='static/images/trash/filter.jpg'
+    return send_file(path,as_attachment=True)
+
+###############################################################################################main function
+if __name__ == '__main__':
+	app.run(debug=False,port=8080)
