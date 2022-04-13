@@ -4,6 +4,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 html,
 body {
   background-color: #fff;
@@ -13,9 +14,11 @@ body {
   font-size: 20px;
   text-rendering: optimizeLegibility;
 }
+
 .clearfix {
   zoom: 1;
 }
+
 .clearfix:after {
   content: ".";
   clear: both;
@@ -23,15 +26,18 @@ body {
   height: 0;
   visibility: hidden;
 }
+
 /*******************************************/
 .row {
   margin: 0 auto;
   max-width: 1140px;
 }
+
 header {
   background-color: white;
   color: black;
 }
+
 /******************navigation bar*******/
 .logo {
   height: 50px;
@@ -41,12 +47,14 @@ header {
   margin-bottom: 5px;
   border-radius: 50%;
 }
+
 .main-nav li {
   float: right;
   list-style: none;
   margin-left: 40px;
   margin-top: 25px;
 }
+
 .main-nav li a:link,
 .main-nav li a:visited {
   text-decoration: none;
@@ -55,6 +63,7 @@ header {
   font-size: 90%;
   padding: 8px 0;
 }
+
 .main-nav li a:hover,
 .main-nav li a:active {
   border-bottom: 2px solid #55075b;

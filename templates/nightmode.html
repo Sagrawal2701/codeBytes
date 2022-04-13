@@ -1,0 +1,48 @@
+{% extends 'template.html'%} {%block head%}
+<link rel="stylesheet" href="../static/css/nightmode.css" />
+{%endblock%} {%block content%}
+<div class="center">
+  Nightmode is the unique feature implemented by our team. This mode
+  automatically improves illumination in low light images and enhances the
+  images taken in dark.<br />Note: Please use lowlight images as input as the
+  feature enhances low light images only.<br />Note: It may take upto few
+  minutes to enhance the low light images.
+</div>
+<div class="section">
+  <form
+    class="img_upload"
+    action="{{url_for('nightmode')}}"
+    method="post"
+    enctype="multipart/form-data"
+  >
+    <input
+      type="file"
+      name="local_file"
+      accept=".jpeg,.jpg,.png"
+      id="local_file"
+    />
+    <input type="submit" name="button" value="Upload" class="upload" />
+    <div class="image">
+      <div class="field">
+        <img
+          src="{{image_filename}}"
+          alt="uploaded image"
+          class="up_img"
+          id="up_img"
+        />
+      </div>
+    </div>
+
+    <div class="down_apply">
+      <button type="submit" name="button" value="night" class="upload">
+        Apply Night Mode
+      </button>
+      <a href="{{url_for('download_file2')}}" class="upload">Download</a>
+    </div>
+  </form>
+</div>
+
+<footer>
+  <p>Copyright &copy 2022 codeBytes</p>
+</footer>
+{%endblock%}

@@ -9,6 +9,7 @@ import platform
 from effects import color_pop, cool, alchemy,wacko,unstable,ore,contour,snicko,indus,spectra,molecule,lynn
 from edit import brightness,contrast,blur,resize,denoise,rotate,sharp
 from filter import hind,flora,handlebar,bella,tilak,thug,lido,polychrome,visor,rcb,mi,nags
+from nightMode import night
 
 app = Flask(__name__)
 app.config['SECRET_KEY']='codeBytes'
@@ -36,6 +37,7 @@ def about():
 
 
 ############################################################################################edit page
+file_type=''
 edit_img=''
 edited=''
 brightness_value='0'
@@ -47,7 +49,6 @@ denoise_value=''
 blur_value='1'
 effected=''
 filter_val='None'
-compress_value='min'
 
 @app.route('/edit',methods=['GET','POST'])
 def edit():
@@ -63,7 +64,7 @@ def edit():
        global denoise_value
        global blur_value
        global filter_val
-       global compress_value
+       global file_type
    
        if request.form['button']=='Upload'  and  request.files['local_file'].filename!='':
             f = request.files['local_file']
@@ -75,7 +76,7 @@ def edit():
             os.chdir(folder)
             f.save(secure_filename(f.filename))
             os.chdir(previous)
-            return render_template('edit.html',image_filename='../static/images/trash/'+f.filename,brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
+            return render_template('edit.html',image_filename='../static/images/trash/'+f.filename,brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val)
      
        elif request.form['button']=='Apply' and edit_img!='':
             brightness_value = request.form['brightness']
@@ -86,12 +87,13 @@ def edit():
             denoise_value = request.form['type3']
             blur_value = request.form['Blur']
             filter_val=request.form['filters']
-            compress_value=request.form['type4']
             previous = os.getcwd()
             folder = previous +'/static/images/trash/'
             if edit_img.count('jpeg')>0 or edit_img.count("jpg")>0:
+                file_type='jpg'
                 edited=folder+'edited.jpg'
             elif edit_img.count('png')>0:
+                 file_type='png'
                  edited=folder+'edited.png'
             os.chdir(folder)
             if brightness_value:
@@ -126,18 +128,16 @@ def edit():
                elif filter_val=='Ore':
                    ore(edited)
                elif filter_val=='Snicko':
-                   snicko(edited)
-               elif compress_value!='':
-                   compression(edited,compress_value)                                
+                   snicko(edited)                               
             os.chdir(previous)           
  
             if edit_img.count('jpeg')>0 or edit_img.count("jpg")>0:
-                return render_template('edit.html',image_filename='../static/images/trash/edited.jpg',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
+                return render_template('edit.html',image_filename='../static/images/trash/edited.jpg',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val)
             elif edit_img.count('png')>0:
-                return render_template('edit.html',image_filename='../static/images/trash/edited.jpg',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
+                return render_template('edit.html',image_filename='../static/images/trash/edited.png',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val)
             else:
                flash("Oops Something went wrong !")
-               return render_template('edit.html',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
+               return render_template('edit.html',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val)
     
        else:
             effected=''
@@ -150,10 +150,11 @@ def edit():
             rotate_value=''
             denoise_value=''
             blur_value='1'
+            file_type=''
             flash("Oops Something went wrong !")
-            return render_template('edit.html',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
+            return render_template('edit.html',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val)
 
-    return render_template('edit.html',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val,compress_value=compress_value)
+    return render_template('edit.html',brightness_value=brightness_value,contrast_value=contrast_value,blur_value=blur_value,sharp_value=sharp_value,denoise_value=denoise_value,rotate_value=rotate_value,resize_value=resize_value,filter_val=filter_val)
 
 ############################################################################################filters page
 cap =''
@@ -253,14 +254,60 @@ def filters():
 
 @app.route('/download')
 def download_file():
-    path='static/images/trash/edited.jpg'
+    if(file_type=='png'):
+     path='static/images/trash/edited.png'
+    else:
+     path='static/images/trash/edited.jpg'    
     return send_file(path,as_attachment=True)
 @app.route('/download1')
 def download_file1():
     path='static/images/trash/filter.jpg'
     return send_file(path,as_attachment=True)
 
+
+night_img=''
+file_type=''
+@app.route('/nightmode',methods=['GET','POST'])
+def nightmode():
+    if request.method == 'POST':
+        global night_img
+        global file_type
+        if request.form['button']=='Upload' and request.files['local_file'].filename!='':
+            f = request.files['local_file']
+            previous = os.getcwd()
+            night_img=previous+'/static/images/trash/'+f.filename
+            folder = previous +'/static/images/trash/'
+            os.chdir(folder)
+            f.save(secure_filename(f.filename))
+            os.chdir(previous)
+            return render_template('nightmode.html',image_filename='../static/images/trash/'+f.filename) 
+             
+        elif request.form['button']=='night' and night_img!='':
+            previous=os.getcwd()
+            folder=previous+'/static/images/trash/'
+            os.chdir(folder)
+            night(night_img)
+            os.chdir(previous)
+            if night_img.count('jpeg')>0 or night_img.count("jpg")>0:
+                file_type='jpg'
+                night_img=folder+'nightmode.jpg'
+                return render_template('nightmode.html',image_filename='../static/images/trash/nightimage.jpg') 
+            elif night_img.count('png')>0:
+                file_type='png'
+                night_img=folder+'nightmode.png'
+                return render_template('nightmode.html',image_filename='../static/images/trash/nightimage.png')  
+            else:
+                return render_template('nightmode.html')            
+    return render_template('nightmode.html')
+
+@app.route('/download2')
+def download_file2():
+    if(file_type=='png'):
+     path='static/images/trash/nightimage.png'
+    else:
+     path='static/images/trash/nightimage.jpg'    
+    return send_file(path,as_attachment=True)
+
 ###############################################################################################main function
 if __name__ == '__main__':
-        port = int(os.environ.get("PORT", 5000))
-        app.run(host='0.0.0.0', port=port)
+	app.run(debug=False,port=8080)

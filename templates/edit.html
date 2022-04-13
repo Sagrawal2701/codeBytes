@@ -3,174 +3,52 @@
 {%endblock%} {%block content%}
 <section class="features">
   <div class="container">
-    <form
-    class="img_upload"
-    action="{{url_for('edit')}}"
-    method="post"
-    enctype="multipart/form-data"
-  >
-    <div class="row">
-      <div class="col-5">
-        <input
-          type="file"
-          name="local_file"
-          accept=".jpeg,.jpg,.png"
-          id="local_file"
-        />
-        <input type="submit" name="button" value="Upload" class="upload" />
-        <div class="image">
-          <div class="field">
-            <img
-              src="{{image_filename}}"
-              alt="uploaded image"
-              class="up_img"
-              id="up_img"
-            />
+    <form class="img_upload" action="{{url_for('edit')}}" method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-5">
+          <input type="file" name="local_file" accept=".jpeg,.jpg,.png" id="local_file" />
+          <input type="submit" name="button" value="Upload" class="upload" />
+          <div class="image">
+            <div class="field">
+              <img src="{{image_filename}}" alt="uploaded image" class="up_img" id="up_img" />
+            </div>
           </div>
+
+
+          <br>
+          <div class="down_apply">
+            <input type="submit" name="button" value="Apply" class="upload1" />
+            <a href="{{url_for('download_file')}}" class="upload1" class="anchor">Download</a>
+          </div>
+
+
+
+
+          {% for mess in get_flashed_messages() %}
+          <h5>{{mess}}</h5>
+          {% endfor %}
         </div>
 
-        <h6><strong>COMPRESS</strong></h6>
-        {%if compress_value=='min'%}
-        <label for="min">Min</label>
-        <input
-          type="radio"
-          id="min"
-          name="type4"
-          value="min"
-          checked
-        />
-        <label for="mid">Mid</label>
-        <input type="radio" id="mid" name="type4" value="mid" />
-        <label for="max">Max</label>
-        <input type="radio" id="max" name="type4" value="max" />
-        <label for="none">None</label>
-        <input type="radio" id="none" name="type4" value="none" />
-        
-        {%elif compress_value=='mid'%}
-        <label for="min">Min</label>
-        <input
-          type="radio"
-          id="min"
-          name="type4"
-          value="min"
-          checked
-        />
-        <label for="mid">Mid</label>
-        <input type="radio" id="mid" name="type4" value="mid" checked/>
-        <label for="max">Max</label>
-        <input type="radio" id="max" name="type4" value="max" />
-        <label for="none">None</label>
-        <input type="radio" id="none" name="type4" value="none" />
-        {%elif compress_value=='max'%}
-        <label for="min">Min</label>
-        <input
-          type="radio"
-          id="min"
-          name="type4"
-          value="min"
-          checked
-        />
-        <label for="mid">Mid</label>
-        <input type="radio" id="mid" name="type4" value="mid" />
-        <label for="max">Max</label>
-        <input type="radio" id="max" name="type4" value="max" checked/>
-        <label for="none">None</label>
-        <input type="radio" id="none" name="type4" value="none" />
-        {%else%}
-        <label for="min">Min</label>
-        <input
-          type="radio"
-          id="min"
-          name="type4"
-          value="min"
-          
-        />
-        <label for="mid">Mid</label>
-        <input type="radio" id="mid" name="type4" value="mid" />
-        <label for="max">Max</label>
-        <input type="radio" id="max" name="type4" value="max" />
-        <label for="none">None</label>
-        <input type="radio" id="none" name="type4" value="none" checked />
-        {%endif%}
+        <div class="col-7">
 
-        <input
-          type="radio"
-          id="min"
-          name="type4"
-          value="min"
-          checked="checked"
-        />
-        <label for="min">Min</label>
-        <input type="radio" id="max" name="type4" value="max" />
-        <label for="max">Max</label>
-        <input type="radio" id="mid" name="type4" value="mid" />
-        <label for="mid">Mid</label>
-        <input
-          type="radio"
-          id="min"
-          name="type4"
-          value="min"
-          checked="checked"
-        />
-        <label for="min">Min</label>
-        <br>
-        <div class="down_apply">
-          <input type="submit" name="button" value="Apply" class="upload1" />
-        <!-- <input type="submit" name="button" value="Download" class="upload1" /> -->
-        <p><a href="{{url_for('download_file')}}" >Download</a></p>
-        </div>
-        
-        
-
-
-        {% for mess in get_flashed_messages() %}
-        <h5>{{mess}}</h5>
-        {% endfor %}
-      </div>
-
-      <div class="col-7">
-       
           <div class="col span-1-of-1">
             <div style: margin-top="25px">
-            <label for="Brightness""
+              <label for="Brightness""
               ><strong>BRIGHTNESS</strong></label
             >
 
             <input
-              type="number"
-              id="brightness"
-              name="brightness"
-              min="-255"
-              max="255"
-              step="1"
-              value="{{brightness_value}}"
-            />
+              type=" number" id="brightness" name="brightness" min="-255" max="255" step="1"
+                value="{{brightness_value}}" />
 
-            <label for="Contrast" margin-left="40px"
-              ><strong>CONTRAST</strong></label
-            >
+              <label for="Contrast" margin-left="40px"><strong>CONTRAST</strong></label>
 
-            <input
-              type="number"
-              id="Contrast"
-              name="Contrast"
-              min="0.1"
-              max="1.9"
-              step="0.1"
-              value="{{contrast_value}}"
-            />
+              <input type="number" id="Contrast" name="Contrast" min="0.1" max="1.9" step="0.1"
+                value="{{contrast_value}}" />
 
-            <label for="Blur" margin-left="40px"><strong>BLUR</strong></label>
+              <label for="Blur" margin-left="40px"><strong>BLUR</strong></label>
 
-            <input
-              type="number"
-              id="Blur"
-              name="Blur"
-              min="1"
-              max="100"
-              step="1"
-              value="{{blur_value}}"
-            />
+              <input type="number" id="Blur" name="Blur" min="1" max="100" step="1" value="{{blur_value}}" />
             </div>
 
             <br />
@@ -252,13 +130,7 @@
             {%elif rotate_value=='180'%}
             <input type="radio" id="ninety" name="type1" value="90" />
             <label for="ninety">90&#176;</label>
-            <input
-              type="radio"
-              id="one_eighty"
-              name="type1"
-              value="180"
-              checked
-            />
+            <input type="radio" id="one_eighty" name="type1" value="180" checked />
             <label for="one_eighty">180&#176;</label>
             <input type="radio" id="two_seventy" name="type1" value="270" />
             <label for="two_seventy">270&#176;</label>
@@ -269,13 +141,7 @@
             <label for="ninety">90&#176;</label>
             <input type="radio" id="one_eighty" name="type1" value="180" />
             <label for="one_eighty">180&#176;</label>
-            <input
-              type="radio"
-              id="two_seventy"
-              name="type1"
-              value="270"
-              checked
-            />
+            <input type="radio" id="two_seventy" name="type1" value="270" checked />
             <label for="two_seventy">270&#176;</label>
             <input type="radio" id="none" name="type1" value="none" />
             <label for="none">None</label>
@@ -331,547 +197,407 @@
             {%endif%}
             <br />
             <br />
-            
-            <div>
-            <p><strong>FILTERS</strong></p>
-            {%if filter_val=='Oreo'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" />
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
-            {%elif filter_val=='Alchemy'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" checked/>
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" />
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
-            {%elif filter_val=='Unstable'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button" checked
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" />
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
-            {%elif filter_val=='Contour'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" checked/>
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" />
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
-            {%elif filter_val==''%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" />
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" /><label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
 
-            {%elif filter_val=='Indus'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" checked/>
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" />
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
-            {%elif filter_val=='Molecule'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button" checked
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" />
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
-            {%elif filter_val=='Mercury'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" checked/>
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" />
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
-            {%elif filter_val=='Wacko'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" checked/>
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
-            {%elif filter_val=='Ore'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" checked/>
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" checked />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
-            {%elif filter_val=='Snicko'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" checked/>
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" checked/>
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
-            {%elif filter_val=='Spectra'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" checked/>
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" checked/>
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" />
-            {%elif filter_val=='Lynn'%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" checked/>
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" checked/>
-            {%else%}
-            <label for="Oreo">Color-Pop</label>
-            <input type="radio" name="filters" value="Oreo" class="button" checked/>
-            <label for="Alchemy">Alchemy</label>
-            <input type="radio" name="filters" value="Alchemy" class="button" />
-            <label for="Unstable">Unstable</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Unstable"
-              class="button"
-            />
-            <label for="Contor">Contour</label>
-            <input type="radio" name="filters" value="Contour" class="button" />
-            <label for="Indus">Indus</label>
-            <input type="radio" name="filters" value="Indus" class="button" />
-            <label for="Molecule">Molecule</label>
-            <input
-              type="radio"
-              name="filters"
-              value="Molecule"
-              class="button"
-            />
-            <br />
-            <label for="Mercury">Cool</label>
-            <input type="radio" name="filters" value="Mercury" class="button" />
-            <label for="Wacko">Wacko</label>
-            <input type="radio" name="filters" value="Wacko" class="button" checked/>
-            <label for="Ore">Ore</label>
-            <input type="radio" name="filters" value="Ore" class="button" />
-            <label for="Snicko">Snicko</label>
-            <input type="radio" name="button" value="Snicko" class="button" />
-            <label for="Spectra">Spectra</label>
-            <input type="radio" name="filters" value="Spectra" class="button" />
-            <label for="Lynn">Lynn</label>
-            <input type="radio" name="filters" value="Lynn" class="button" />
-            <label for="None">None</label>
-            <input type="radio" name="filters" value="None" class="button" checked/>
-            {%endif%}
-            
+            <div>
+              <p><strong>FILTERS</strong></p>
+              {%if filter_val=='Oreo'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+              {%elif filter_val=='Alchemy'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" checked />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+              {%elif filter_val=='Unstable'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" checked />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+              {%elif filter_val=='Contour'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" checked />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+              {%elif filter_val==''%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" /><label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+
+              {%elif filter_val=='Indus'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" checked />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+              {%elif filter_val=='Molecule'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" checked />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+              {%elif filter_val=='Mercury'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" checked />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+              {%elif filter_val=='Wacko'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" checked />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+              {%elif filter_val=='Ore'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" checked />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" checked />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+              {%elif filter_val=='Snicko'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" checked />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" checked />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+              {%elif filter_val=='Spectra'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" checked />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" checked />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" />
+              {%elif filter_val=='Lynn'%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" checked />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" checked />
+              {%else%}
+              <label for="Oreo">Color-Pop</label>
+              <input type="radio" name="filters" value="Oreo" class="button" checked />
+              <label for="Alchemy">Alchemy</label>
+              <input type="radio" name="filters" value="Alchemy" class="button" />
+              <label for="Unstable">Unstable</label>
+              <input type="radio" name="filters" value="Unstable" class="button" />
+              <label for="Contor">Contour</label>
+              <input type="radio" name="filters" value="Contour" class="button" />
+              <label for="Indus">Indus</label>
+              <input type="radio" name="filters" value="Indus" class="button" />
+              <label for="Molecule">Molecule</label>
+              <input type="radio" name="filters" value="Molecule" class="button" />
+
+              <label for="Mercury">Cool</label>
+              <input type="radio" name="filters" value="Mercury" class="button" />
+              <label for="Wacko">Wacko</label>
+              <input type="radio" name="filters" value="Wacko" class="button" checked />
+              <label for="Ore">Ore</label>
+              <input type="radio" name="filters" value="Ore" class="button" />
+              <label for="Snicko">Snicko</label>
+              <input type="radio" name="button" value="Snicko" class="button" />
+              <label for="Spectra">Spectra</label>
+              <input type="radio" name="filters" value="Spectra" class="button" />
+              <label for="Lynn">Lynn</label>
+              <input type="radio" name="filters" value="Lynn" class="button" />
+              <label for="None">None</label>
+              <input type="radio" name="filters" value="None" class="button" checked />
+              {%endif%}
+
+            </div>
           </div>
-          </div>
-       
+
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
 
   </div>
 </section>
