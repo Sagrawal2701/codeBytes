@@ -13,7 +13,7 @@ from nightMode import night
 
 app = Flask(__name__)
 app.config['SECRET_KEY']='codeBytes'
-
+port = int(os.environ.get("PORT",5000))
 
 
 @app.after_request
@@ -310,4 +310,4 @@ def download_file2():
 
 ###############################################################################################main function
 if __name__ == '__main__':
-	app.run(debug=False,port=8080)
+	app.run(host='0.0.0.0',port=port)
