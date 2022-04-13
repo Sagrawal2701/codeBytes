@@ -262,4 +262,5 @@ def download_file1():
 
 ###############################################################################################main function
 if __name__ == '__main__':
-	app.run(debug=False,port=8080)
+        port = int(os.environ.get("PORT", 5000))
+        app.run(host='0.0.0.0', port=port)
