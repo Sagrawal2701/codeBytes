@@ -15,6 +15,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY']='codeBytes'
 
 
+
 @app.after_request
 def add_header(response):
     response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
@@ -164,7 +165,7 @@ def stream():
     global cap
     cap=cv2.VideoCapture(0)
     while True:
-        _,frame = cap.read()
+        __,frame = cap.read()
         imgencode=cv2.imencode('.jpg',frame)[1]
         strinData = imgencode.tostring()
         yield (b'--frame\r\n'b'Content-Type: text/plain\r\n\r\n'+strinData+b'\r\n')
@@ -308,5 +309,5 @@ def download_file2():
     return send_file(path,as_attachment=True)
 
 ###############################################################################################main function
-if __name__ == "__main__":
-    app.run()
+if __name__ == '__main__':
+	app.run()
