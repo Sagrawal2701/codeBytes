@@ -47,6 +47,8 @@ frontal facial features and then attached PNG files (clip arts like
 sunglasses, moustache, ipl team bands, etc.) on various facial 
 positions.
 
-
-• Link to Github Repository of the project:
-https://github.com/Sagrawal2701/codeByte
+• Link to test project live on web:
+https://kubergupta.pythonanywhere.com/
+(Note: The live effects page is not supported on web deployed link 
+because of constraints in the webcam access due to security issues. 
+The live effects page is supported on Local Machine only.)
