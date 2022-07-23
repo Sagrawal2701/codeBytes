@@ -4,7 +4,7 @@ Methodology:
 • Library Used: Open CV
 
 • Framework Used: Flask
-(Programming Languages Used: HTML, CSS, Python)
+(Programming Languages Used: HTML, Python, CSS)
 
 • For Edit Page:
 Brightness: To increase brightness, we added some values to each 
